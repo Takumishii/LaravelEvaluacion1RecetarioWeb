@@ -77,7 +77,7 @@ public function index(Request $request)
     return view('recetas.index', compact('recetas'));
 }
 
-```md
+```
 
 ---
 
