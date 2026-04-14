@@ -1,3 +1,7 @@
+@extends('layouts.app')
+
+@section('content')
+
 <h1 style="margin-bottom: 20px;">Recetas 🍽️</h1>
 
 @if(session('success'))
@@ -70,3 +74,5 @@
 @endforeach
 
 </div>
+
+@endsection
