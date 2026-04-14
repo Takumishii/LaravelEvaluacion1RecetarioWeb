@@ -77,7 +77,7 @@ public function index(Request $request)
     return view('recetas.index', compact('recetas'));
 }
 
-```´
+```md
 
 ---
 
@@ -99,3 +99,4 @@ Los filtros se aplican de manera acumulativa, lo que permite combinarlos entre s
 /?buscar=choclo&tipo=plato principal&dificultad=media
 
 Esto devuelve únicamente las recetas que cumplen todos los filtros al mismo tiempo.
+
