@@ -6,6 +6,12 @@
     </div>
 @endif
 
+@if(session('error'))
+    <div style="background:#f8d7da;padding:10px;margin-bottom:10px;">
+        {{ session('error') }}
+    </div>
+@endif
+
 <form method="GET" action="{{ route('recetas.index') }}" style="margin-bottom: 20px;">
     <input type="text" name="buscar" placeholder="Buscar receta...">
 

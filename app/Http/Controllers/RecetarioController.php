@@ -9,6 +9,7 @@ class RecetarioController extends Controller
 private $recetas = [
     [   "id" => 1,
         "nombre" => "Ensalada Chilena",
+        "slug" => "ensalada-chilena",
         "tipo" => "entrada",
         "dificultad" => "facil",
         "tiempo" => "10 min",
@@ -24,6 +25,7 @@ private $recetas = [
     [
         "id" => 2,
         "nombre" => "Empanaditas de Pino",
+        "slug" => "empanaditas-pino",
         "tipo" => "entrada",
         "dificultad" => "media",
         "tiempo" => "60 min",
@@ -39,6 +41,7 @@ private $recetas = [
     [
         "id" => 3,
         "nombre" => "Pastel de Choclo",
+        "slug"=> "pastel-choclo",
         "tipo" => "plato principal",
         "dificultad" => "dificil",
         "tiempo" => "90 min",
@@ -54,6 +57,7 @@ private $recetas = [
     [
         "id" => 4,
         "nombre" => "Charquicán",
+        "slug"=> "charquican",
         "tipo" => "plato principal",
         "dificultad" => "media",
         "tiempo" => "45 min",
@@ -69,6 +73,7 @@ private $recetas = [
     [
         "id" => 5,
         "nombre" => "Mote con Huesillos",
+        "slug"=> "mote-con-huesillos",
         "tipo" => "postre",
         "dificultad" => "facil",
         "tiempo" => "30 min (+ reposo)",
@@ -84,6 +89,7 @@ private $recetas = [
     [
         "id" => 6,
         "nombre" => "Leche Asada",
+        "slug"=> "leche-asada",
         "tipo" => "postre",
         "dificultad" => "media",
         "tiempo" => "50 min",
@@ -99,6 +105,7 @@ private $recetas = [
     [
         "id" => 7,
         "nombre" => "Porotos Granados",
+        "slug"=> "porotos-granados",
         "tipo" => "plato principal",
         "dificultad" => "media",
         "tiempo" => "60 min",
@@ -114,6 +121,7 @@ private $recetas = [
     [
         "id" => 8,
         "nombre" => "Humitas",
+        "slug"=> "humitas",
         "tipo" => "entrada",
         "dificultad" => "media",
         "tiempo" => "70 min",
@@ -158,7 +166,9 @@ private $recetas = [
         $receta = collect($this->recetas)->firstWhere('id', $id);
 
         if (!$receta) {
-            abort(404);
+            return redirect()
+                ->route('recetas.index')
+                ->with('error', 'La receta no existe');
         }
 
         return view('recetas.show', compact('receta'));
