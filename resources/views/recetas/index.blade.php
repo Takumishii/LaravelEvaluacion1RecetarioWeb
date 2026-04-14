@@ -42,9 +42,15 @@
 
 <div style="display:flex;flex-wrap:wrap;gap:20px;">
 
+<div class="row g-4">
+
 @foreach($recetas as $receta)
-    @include('recetas.partials.card', ['receta' => $receta])
+    <div class="col-md-3">
+        @include('recetas.partials.card', ['receta' => $receta])
+    </div>
 @endforeach
+
+</div>
 
 </div>
 

@@ -2,67 +2,75 @@
 
 @section('content')
 
-<h1>Crear receta</h1>
+<div style="max-width:500px;margin:auto;background:white;padding:20px;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.1);">
 
-<form method="POST" action="{{ route('recetas.store') }}">
-    @csrf
+    <h1 style="color:#111F35;">Crear receta</h1>
 
-    {{-- NOMBRE --}}
-    <div>
-        <input 
-            type="text" 
-            name="nombre" 
-            placeholder="Nombre"
-            value="{{ old('nombre') }}"
-            class="{{ $errors->has('nombre') ? 'error' : '' }}"
-        >
+    <form method="POST" action="{{ route('recetas.store') }}">
+        @csrf
 
-        @error('nombre')
-            <p class="error-text">{{ $message }}</p>
-        @enderror
-    </div>
+        {{-- NOMBRE --}}
+        <div style="margin-bottom:15px;">
+            <label>Nombre</label><br>
+            <input 
+                type="text" 
+                name="nombre" 
+                value="{{ old('nombre') }}"
+                style="width:100%;padding:8px;border-radius:5px;
+                border:1px solid {{ $errors->has('nombre') ? '#F63049' : '#ccc' }};">
+            
+            @error('nombre')
+                <small style="color:#F63049;">{{ $message }}</small>
+            @enderror
+        </div>
 
-    <br>
+        {{-- TIPO --}}
+        <div style="margin-bottom:15px;">
+            <label>Tipo</label><br>
+            <select 
+                name="tipo" 
+                style="width:100%;padding:8px;border-radius:5px;
+                border:1px solid {{ $errors->has('tipo') ? '#F63049' : '#ccc' }};">
+                
+                <option value="">Seleccione</option>
+                <option value="entrada" {{ old('tipo') == 'entrada' ? 'selected' : '' }}>Entrada</option>
+                <option value="plato principal" {{ old('tipo') == 'plato principal' ? 'selected' : '' }}>Plato principal</option>
+                <option value="postre" {{ old('tipo') == 'postre' ? 'selected' : '' }}>Postre</option>
+            </select>
 
-    {{-- TIPO --}}
-    <div>
-        <select 
-            name="tipo"
-            class="{{ $errors->has('tipo') ? 'error' : '' }}"
-        >
-            <option value="">Seleccione tipo</option>
-            <option value="entrada">Entrada</option>
-            <option value="plato principal">Plato principal</option>
-            <option value="postre">Postre</option>
-        </select>
+            @error('tipo')
+                <small style="color:#F63049;">{{ $message }}</small>
+            @enderror
+        </div>
 
-        @error('tipo')
-            <p class="error-text">{{ $message }}</p>
-        @enderror
-    </div>
+        {{-- DIFICULTAD --}}
+        <div style="margin-bottom:15px;">
+            <label>Dificultad</label><br>
+            <select 
+                name="dificultad" 
+                style="width:100%;padding:8px;border-radius:5px;
+                border:1px solid {{ $errors->has('dificultad') ? '#F63049' : '#ccc' }};">
+                
+                <option value="">Seleccione</option>
+                <option value="facil" {{ old('dificultad') == 'facil' ? 'selected' : '' }}>Fácil</option>
+                <option value="media" {{ old('dificultad') == 'media' ? 'selected' : '' }}>Media</option>
+                <option value="dificil" {{ old('dificultad') == 'dificil' ? 'selected' : '' }}>Difícil</option>
+            </select>
 
-    <br>
+            @error('dificultad')
+                <small style="color:#F63049;">{{ $message }}</small>
+            @enderror
+        </div>
 
-    {{-- DIFICULTAD --}}
-    <div>
-        <select 
-            name="dificultad"
-            class="{{ $errors->has('dificultad') ? 'error' : '' }}"
-        >
-            <option value="">Seleccione dificultad</option>
-            <option value="facil">Fácil</option>
-            <option value="media">Media</option>
-            <option value="dificil">Difícil</option>
-        </select>
+        {{-- BOTÓN --}}
+        <button 
+            type="submit" 
+            style="width:100%;background:#F63049;color:white;border:none;padding:10px;border-radius:5px;">
+            Guardar receta
+        </button>
 
-        @error('dificultad')
-            <p class="error-text">{{ $message }}</p>
-        @enderror
-    </div>
+    </form>
 
-    <br>
-
-    <button type="submit">Guardar</button>
-</form>
+</div>
 
 @endsection
