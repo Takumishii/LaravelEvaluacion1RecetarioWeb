@@ -7,7 +7,7 @@ Evaluacion 1 de la asignatura de desarrollo web con Laravel
 - Filtro por tipo y dificultad
 - Búsqueda por nombre
 - Visualización de detalle
-- Creación de recetas
+- Creación de recetas (sin persistencia)
 
 ##  Inicialización
 
