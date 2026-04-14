@@ -115,6 +115,10 @@ class RecetarioController extends Controller
     {
         $receta = collect($this->recetas)->firstWhere('id', $id);
 
+        if (!$receta) {
+            abort(404);
+        }
+
         return view('recetas.show', compact('receta'));
     }
 
@@ -131,7 +135,27 @@ class RecetarioController extends Controller
             'dificultad' => 'required',
         ]);
 
-        return redirect('/')->with('success', 'Receta creada (simulada)');
+        return redirect()->route('recetas.index')->with('success', 'Receta creada (simulada)');
     }
+
+    public function buscar(Request $request)
+{
+    $recetas = $this->recetas;
+
+    if ($request->buscar) {
+        $recetas = array_filter($recetas, function ($r) use ($request) {
+            return stripos($r['nombre'], $request->buscar) !== false;
+        });
+    }
+    if ($request->tipo) {
+        $recetas = array_filter($recetas, fn($r) => $r['tipo'] == $request->tipo);
+    }
+
+    if ($request->dificultad) {
+        $recetas = array_filter($recetas, fn($r) => $r['dificultad'] == $request->dificultad);
+    }
+
+    return view('recetas.index', compact('recetas'));
+}
 }
 

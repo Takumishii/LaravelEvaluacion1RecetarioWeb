@@ -8,7 +8,7 @@
     </ul>
 @endif
 
-<form method="POST">
+<form method="POST" action="{{ route('recetas.store') }}">
     @csrf
 
     <input type="text" name="nombre" placeholder="Nombre">
@@ -28,4 +28,4 @@
     <button type="submit">Guardar</button>
 </form>
 
-<a href="/">Volver</a>
+<a href="{{ route('recetas.index') }}">Volver</a>

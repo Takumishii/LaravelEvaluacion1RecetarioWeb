@@ -1,7 +1,7 @@
 <h1>Recetas</h1>
 
-<form method="GET">
-    <input type="text" name="buscar" placeholder="Buscar...">
+<form method="GET" action="{{ route('recetas.index') }}">
+    <input type="text" name="buscar" placeholder="Buscar receta...">
 
     <select name="tipo">
         <option value="">Tipo</option>
@@ -20,12 +20,12 @@
     <button type="submit">Filtrar</button>
 </form>
 
-<a href="/crear">Crear receta</a>
+<a href="{{ route('recetas.create') }}">Crear receta</a>
 
 <ul>
 @foreach($recetas as $receta)
     <li>
-        <a href="/recetas/{{ $receta['id'] }}">
+        <a href="{{ route('recetas.show', $receta['id']) }}">
             {{ $receta['nombre'] }}
         </a>
     </li>
