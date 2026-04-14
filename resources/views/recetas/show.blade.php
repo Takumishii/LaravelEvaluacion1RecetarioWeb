@@ -3,10 +3,16 @@
 @section('content')
 
 @if($receta)
+
     <h1>{{ $receta['nombre'] }}</h1>
 
-    <p>Tipo: {{ $receta['tipo'] }}</p>
-    <p>Dificultad: {{ $receta['dificultad'] }}</p>
+    <img src="{{ asset($receta['imagen_url']) }}"
+         alt="{{ $receta['nombre'] }}"
+         style="width:300px;border-radius:10px;margin-bottom:15px;">
+
+    <p><strong>Tipo:</strong> {{ $receta['tipo'] }}</p>
+    <p><strong>Dificultad:</strong> {{ $receta['dificultad'] }}</p>
+    <p><strong>Tiempo:</strong> {{ $receta['tiempo'] }}</p>
 
     <h3>Ingredientes:</h3>
     <ul>
@@ -18,9 +24,12 @@
     <h3>Pasos:</h3>
     <ol>
         @foreach($receta['pasos'] as $paso)
-            <li>{{ $paso }}</li>
+            <li>
+                Paso {{ $loop->iteration }}: {{ $paso }}
+            </li>
         @endforeach
     </ol>
+
 @else
     <p>Receta no encontrada</p>
 @endif

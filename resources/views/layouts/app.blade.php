@@ -42,6 +42,15 @@
         .search input {
             padding: 5px;
         }
+        
+        .error {
+            border: 2px solid red;
+        }
+
+        .error-text {
+            color: red;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>

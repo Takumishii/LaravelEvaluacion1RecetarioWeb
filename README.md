@@ -1,31 +1,45 @@
 # LaravelEvaluacion1RecetarioWeb
-Evaluacion 1 de la asignatura de desarrollo web con Laravel
+Evaluación 1 de la asignatura de desarrollo web con Laravel
 
-## Funcionalidades
+---
 
-- Listado de recetas
-- Filtro por tipo y dificultad
-- Búsqueda por nombre
-- Visualización de detalle
-- Creación de recetas (sin persistencia)
+## Descripción del proyecto
 
-##  Inicialización
+Aplicación web desarrollada en Laravel que permite gestionar y explorar recetas de cocina sin uso de base de datos, utilizando arrays en el controlador.
+
+Permite listar recetas, filtrarlas por tipo y dificultad, buscarlas por nombre, ver su detalle y crear nuevas recetas (sin persistencia).
+
+---
+
+## Instalación y configuración
+
+### Comandos utilizados
+
+```bash
+composer create-project laravel/laravel recetario
+cd recetario
+php artisan serve
+```
+
+### Configuración relevante (.env)
+
+```env
+APP_NAME=Laravel
+APP_ENV=local
+APP_DEBUG=true
+APP_URL=http://127.0.0.1:8000
+```
+
+### Evidencia
 
 ![Init](Docs/1.png)
-
-## Servidor activo
-
 ![Servidor](Docs/2.png)
-
-## Primera Prueba
-
 ![Prueba1](Docs/3.png)
-
-## Árbol de directorios
-
 ![Estructura](Docs/directorio.png)
 
-## Rutas de la aplicación
+---
+
+## Nivel 2: Definición de rutas
 
 | Método | URL            | Nombre            | Controlador@Método            |
 |--------|----------------|------------------|-------------------------------|
@@ -35,21 +49,17 @@ Evaluacion 1 de la asignatura de desarrollo web con Laravel
 | POST   | /crear         | recetas.store    | RecetarioController@store     |
 | GET    | /buscar        | recetas.buscar   | RecetarioController@buscar    |
 
+---
 
-## Lógica de búsqueda y filtrado combinado
+## Nivel 3: Controlador y lógica de datos
 
-En este proyecto se implementa un sistema de búsqueda y filtrado de recetas utilizando un array asociativo en el controlador, sin uso de base de datos.
+### ¿Qué es un controlador en MVC?
 
-El sistema permite combinar:
-- Búsqueda por nombre de receta
-- Filtro por tipo de comida
-- Filtro por nivel de dificultad
-
-Estos filtros pueden usarse de forma individual o combinada mediante parámetros GET en la URL.
+El controlador es el encargado de recibir las solicitudes del usuario, procesar los datos y devolver una respuesta (vista). En este proyecto, el controlador maneja un array de recetas y aplica filtros y búsquedas.
 
 ---
 
-### Fragmento de código
+### Búsqueda y filtrado combinado
 
 ```php
 public function index(Request $request)
@@ -57,15 +67,11 @@ public function index(Request $request)
     $recetas = $this->recetas;
 
     if ($request->tipo) {
-        $recetas = array_filter($recetas, function ($r) use ($request) {
-            return $r['tipo'] == $request->tipo;
-        });
+        $recetas = array_filter($recetas, fn($r) => $r['tipo'] == $request->tipo);
     }
 
     if ($request->dificultad) {
-        $recetas = array_filter($recetas, function ($r) use ($request) {
-            return $r['dificultad'] == $request->dificultad;
-        });
+        $recetas = array_filter($recetas, fn($r) => $r['dificultad'] == $request->dificultad);
     }
 
     if ($request->buscar) {
@@ -76,29 +82,98 @@ public function index(Request $request)
 
     return view('recetas.index', compact('recetas'));
 }
+```
 
+La búsqueda se combina con los filtros, por lo que una receta debe cumplir todas las condiciones para ser mostrada.
+
+---
+
+### Uso de `redirect()->with()`
+
+Se utiliza para redirigir al usuario con un mensaje temporal.
+
+```php
+return redirect()->route('recetas.index')
+    ->with('error', 'Receta no encontrada');
+```
+
+En la vista:
+
+```blade
+@if(session('error'))
+    <div>{{ session('error') }}</div>
+@endif
 ```
 
 ---
 
-### Explicación del funcionamiento
+## Nivel 4: Vistas Blade
 
-El sistema parte de un array base de recetas y aplica filtros de forma secuencial:
+### Herencia de layout
 
-- **Filtro por tipo:** compara el valor del parámetro `tipo` con el campo `tipo` de cada receta.
-- **Filtro por dificultad:** compara el nivel de dificultad seleccionado con cada receta.
-- **Búsqueda por nombre:** utiliza `stripos()` para encontrar coincidencias parciales sin distinguir mayúsculas o minúsculas.
+Layout base:
 
-Los filtros se aplican de manera acumulativa, lo que permite combinarlos entre sí. Esto significa que una receta debe cumplir simultáneamente todos los criterios enviados en la URL para ser mostrada.
+```blade
+<div class="container">
+    @yield('content')
+</div>
+```
+
+Vista hija:
+
+```blade
+@extends('layouts.app')
+
+@section('content')
+<h1>Recetas</h1>
+@endsection
+```
+
+`@extends` conecta la vista con el layout y `@yield` define dónde se inserta el contenido.
 
 ---
 
-### Ejemplo de uso
+### Uso de `@foreach` y `$loop`
 
-```txt
-/?buscar=choclo&tipo=plato principal&dificultad=media
-
+```blade
+@foreach($receta['pasos'] as $paso)
+    <li>Paso {{ $loop->iteration }}: {{ $paso }}</li>
+@endforeach
 ```
 
-Esto devuelve únicamente las recetas que cumplen todos los filtros al mismo tiempo.
+`$loop->iteration` permite numerar automáticamente cada elemento.
 
+---
+
+### Uso de `@include` y diferencia con `@component`
+
+```blade
+@include('recetas.partials.card', ['receta' => $receta])
+```
+
+`@include` inserta una vista pasando datos directamente.  
+`@component` permite una estructura más flexible usando slots.
+
+```blade
+@component('recetas.partials.card')
+    @slot('receta')
+        {{ $receta }}
+    @endslot
+@endcomponent
+```
+
+---
+
+### Ejemplo de `@foreach` anidado
+
+```blade
+@foreach($recetas as $receta)
+    <h3>{{ $receta['nombre'] }}</h3>
+
+    <ul>
+        @foreach($receta['ingredientes'] as $ing)
+            <li>{{ $ing }}</li>
+        @endforeach
+    </ul>
+@endforeach
+```
