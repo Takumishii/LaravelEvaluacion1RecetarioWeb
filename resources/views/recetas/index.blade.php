@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h1 style="margin-bottom: 20px;">Recetas 🍽️</h1>
+<h1 style="color:#111F35;">Recetas 🍽️</h1>
 
 @if(session('success'))
     <div style="background:#d1e7dd;padding:10px;margin-bottom:15px;">

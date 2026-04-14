@@ -1,29 +1,21 @@
-<div style="
-    width:250px;
-    border:1px solid #ddd;
-    border-radius:10px;
-    overflow:hidden;
-    box-shadow:0 2px 8px rgba(0,0,0,0.1);
-">
+<div class="card">
 
-    <img src="{{ asset($receta['imagen_url']) }}"
-         alt="{{ $receta['nombre'] }}"
-         style="width:100%;height:150px;object-fit:cover;">
+    <img src="{{ asset($receta['imagen_url']) }}" alt="{{ $receta['nombre'] }}">
 
-    <div style="padding:10px;">
+    <div class="card-content">
 
-        <h3 style="margin:0;">{{ $receta['nombre'] }}</h3>
+        <h3>{{ $receta['nombre'] }}</h3>
 
-        <p style="margin:5px 0;">
+        <p>
             🍽️ {{ $receta['tipo'] }} <br>
             ⏱️ {{ $receta['tiempo'] }} <br>
             ⭐ {{ $receta['dificultad'] }}
         </p>
 
-        <a href="{{ route('recetas.show', $receta['id']) }}"
-           style="display:inline-block;margin-top:10px;padding:5px 10px;background:#007bff;color:white;border-radius:5px;text-decoration:none;">
+        <a href="{{ route('recetas.show', $receta['id']) }}" class="button">
             Ver receta
         </a>
 
     </div>
+
 </div>
